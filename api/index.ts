@@ -5,11 +5,15 @@ import dotenv from "dotenv";
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO)
+  .connect(process.env.MONGO!)
   .then(() => console.log("MongoDB is connected"))
   .catch((err) => console.error(err));
 
 const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hi!!");
+});
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000...");
