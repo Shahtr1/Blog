@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
+import { ERequest, EResponse } from "../models/api.model";
 
-export const test = (req: Request, res: Response) => {
+export const test = (req: ERequest, res: EResponse) => {
   res.send("test working");
 };
