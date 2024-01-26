@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.route";
 import authRouter from "./routes/auth.route";
+import { ERequest, EResponse, IError } from "./models/api.model";
+import { NextFunction } from "connect";
 
 dotenv.config();
 
@@ -24,6 +26,17 @@ const jsonParser = bodyParser.json();
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", jsonParser, authRouter);
+
+// middleware
+app.use((err: IError, req: ERequest, res: EResponse, next: NextFunction) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000...");
