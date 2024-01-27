@@ -4,6 +4,7 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
+  profilePicture: string;
 }
 
 const userSchema = new Schema<IUser>(
@@ -21,6 +22,11 @@ const userSchema = new Schema<IUser>(
     password: {
       type: String,
       required: true,
+    },
+    profilePicture: {
+      type: String,
+      default:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     },
   },
   { timestamps: true }
