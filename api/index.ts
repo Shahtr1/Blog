@@ -6,6 +6,7 @@ import userRoutes from "./routes/user.route";
 import authRouter from "./routes/auth.route";
 import { ERequest, EResponse, IError } from "./models/api.model";
 import { NextFunction } from "connect";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ mongoose
 
 const app = express();
 
+app.use(cookieParser());
+
 // create application/json parser
 const jsonParser = bodyParser.json();
 
@@ -24,7 +27,7 @@ const jsonParser = bodyParser.json();
   const urlencodedParser = bodyParser.urlencoded({ extended: false });
 */
 
-app.use("/api/user", userRoutes);
+app.use("/api/user", jsonParser, userRoutes);
 app.use("/api/auth", jsonParser, authRouter);
 
 // middleware
