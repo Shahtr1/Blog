@@ -4,6 +4,7 @@ export interface IUser {
   username: string;
   email: string;
   profilePicture: string;
+  _id?: string;
 }
 
 export interface IUserState {
@@ -34,10 +35,29 @@ export const userSlice = createSlice({
     signFailure: (state, action) => {
       (state.loading = false), (state.error = action.payload);
     },
+    updateStart: (state) => {
+      state.loading = true;
+      state.error = undefined;
+    },
+    updateSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+      state.error = undefined;
+    },
+    updateFailure: (state, action) => {
+      (state.loading = false), (state.error = action.payload);
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { signInStart, signInSuccess, signFailure } = userSlice.actions;
+export const {
+  signInStart,
+  signInSuccess,
+  signFailure,
+  updateStart,
+  updateSuccess,
+  updateFailure,
+} = userSlice.actions;
 
 export default userSlice.reducer;
