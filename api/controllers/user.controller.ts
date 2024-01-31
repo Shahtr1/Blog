@@ -3,7 +3,6 @@ import { ERequest, EResponse } from "../models/api.model";
 import { errorHandler } from "../utils/error";
 import bcryptjs from "bcryptjs";
 import User from "../models/user.model";
-import { log } from "console";
 
 export const test = (req: ERequest, res: EResponse) => {
   res.send("test working");
@@ -69,6 +68,25 @@ export const updateUser = async (
 
     const { password, ...rest } = updatedUser!;
     res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUser = async (
+  req: ERequest,
+  res: EResponse,
+  next: NextFunction
+) => {
+  const { userId } = req.params;
+
+  if (req.data.id !== userId) {
+    return next(errorHandler(403, "You are not allowed to delete this user"));
+  }
+
+  try {
+    await User.findByIdAndDelete(userId);
+    res.status(200).json("User has been deleted.");
   } catch (error) {
     next(error);
   }
