@@ -74,6 +74,8 @@ export const google = async (
 
   try {
     let user = await User.findOne({ email }).lean();
+    let response = undefined;
+
     if (!user) {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -89,16 +91,21 @@ export const google = async (
         profilePicture: googlePhotoUrl,
       });
       user = await newUser.save();
+
+      const { password, ...rest } = user;
+      // TODO: Please fix this, very very bad!
+      response = (rest as any)._doc;
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!);
     const { password, ...rest } = user;
+
     res
       .status(200)
       .cookie("access_token", token, {
         httpOnly: true,
       })
-      .json(rest);
+      .json(response || rest); // TODO: Please fix this, very very bad!
   } catch (error) {
     next(error);
   }
