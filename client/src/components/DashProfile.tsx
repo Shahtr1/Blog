@@ -15,6 +15,7 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signOutSuccess,
   updateFailure,
   updateStart,
   updateSuccess,
@@ -101,6 +102,20 @@ export default function DashProfile() {
     } catch (error: any) {
       dispatch(updateFailure(error.message));
       setUpdateUserFailure(error.message);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/user/signout", { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) {
+        console.error(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error: any) {
+      console.error(error.message);
     }
   };
 
@@ -242,7 +257,9 @@ export default function DashProfile() {
         <span onClick={() => setShowModal(true)} className="cursor-pointer">
           Delete Account
         </span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span onClick={handleSignOut} className="cursor-pointer">
+          Sign Out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">

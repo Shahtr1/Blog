@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { stat } from "fs";
 
 export interface IUser {
   username: string;
@@ -59,6 +60,11 @@ export const userSlice = createSlice({
     deleteUserFailure: (state, action) => {
       (state.loading = false), (state.error = action.payload);
     },
+    signOutSuccess: (state) => {
+      state.currentUser = undefined;
+      state.error = undefined;
+      state.loading = false;
+    },
   },
 });
 
@@ -73,6 +79,7 @@ export const {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signOutSuccess,
 } = userSlice.actions;
 
 export default userSlice.reducer;
