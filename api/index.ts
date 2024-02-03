@@ -7,6 +7,7 @@ import authRouter from "./routes/auth.route";
 import { ERequest, EResponse, IError } from "./models/api.model";
 import { NextFunction } from "connect";
 import cookieParser from "cookie-parser";
+import postRoutes from "./routes/post.route";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ const jsonParser = bodyParser.json();
 */
 
 app.use("/api/user", jsonParser, userRoutes);
+app.use("/api/post", jsonParser, postRoutes);
 app.use("/api/auth", jsonParser, authRouter);
 
 // middleware
