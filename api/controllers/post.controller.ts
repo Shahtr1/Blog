@@ -57,6 +57,8 @@ export const getPosts = async (
       query.slug = req.query.slug;
     }
     if (req.query.postId) {
+      console.log("=>>>>>>>>>>>>", req.query.postId);
+
       query._id = req.query.postId;
     }
     if (req.query.searchTerm) {
@@ -107,6 +109,34 @@ export const deletePost = async (
   try {
     await Post.findByIdAndDelete(req.params.postId);
     res.status(200).json("The post has been deleted");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updatePost = async (
+  req: ERequest,
+  res: EResponse,
+  next: NextFunction
+) => {
+  if (!req.data.isAdmin || req.data.id !== req.params.userId) {
+    return next(errorHandler(403, "You are not allowed to update this post"));
+  }
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          category: req.body.category,
+          image: req.body.image,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedPost);
   } catch (error) {
     next(error);
   }

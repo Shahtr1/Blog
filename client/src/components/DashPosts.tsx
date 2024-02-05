@@ -5,7 +5,6 @@ import { Button, Modal, Table } from "flowbite-react";
 import { IPost } from "../models/post.model";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { error } from "console";
 
 export default function DashPosts() {
   const { currentUser } = useSelector((state: RootState) => state.user);
