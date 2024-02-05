@@ -57,8 +57,6 @@ export const getPosts = async (
       query.slug = req.query.slug;
     }
     if (req.query.postId) {
-      console.log("=>>>>>>>>>>>>", req.query.postId);
-
       query._id = req.query.postId;
     }
     if (req.query.searchTerm) {

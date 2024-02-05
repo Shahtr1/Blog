@@ -92,6 +92,47 @@ export const deleteUser = async (
   }
 };
 
+export const getUsers = async (
+  req: ERequest,
+  res: EResponse,
+  next: NextFunction
+) => {
+  if (!req.data.isAdmin) {
+    return next(errorHandler(403, "You are not allowed to see all the users"));
+  }
+  try {
+    const startIndex = parseInt(req.query.startIndex as string) || 0;
+    const limit = parseInt(req.query.limit as string) || 9;
+    const sortDirection = req.query.order === "asc" ? 1 : -1;
+
+    const users = await User.find({}, "-password")
+      .sort({ updatedAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+
+    const totalUsers = await User.countDocuments();
+    const now = new Date();
+
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDate()
+    );
+
+    const lastMonthsUsers = await User.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+
+    res.status(200).json({
+      users,
+      totalUsers,
+      lastMonthsUsers,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const signOut = async (
   req: ERequest,
   res: EResponse,
