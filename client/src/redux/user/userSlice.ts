@@ -1,12 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export interface IUser {
-  username: string;
-  email: string;
-  profilePicture: string;
-  isAdmin: boolean;
-  _id?: string;
-}
+import { IUser } from "../../models/user.model";
 
 export interface IUserState {
   currentUser: IUser | undefined;
