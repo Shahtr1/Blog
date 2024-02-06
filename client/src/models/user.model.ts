@@ -4,4 +4,5 @@ export interface IUser {
   profilePicture: string;
   isAdmin: boolean;
   _id?: string;
+  createdAt: string;
 }
