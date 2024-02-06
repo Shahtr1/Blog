@@ -80,7 +80,7 @@ export const deleteUser = async (
 ) => {
   const { userId } = req.params;
 
-  if (req.data.id !== userId) {
+  if (!req.data.isAdmin && req.data.id !== userId) {
     return next(errorHandler(403, "You are not allowed to delete this user"));
   }
 

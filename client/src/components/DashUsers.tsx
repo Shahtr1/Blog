@@ -49,6 +49,25 @@ export default function DashUsers() {
     }
   };
 
+  const handleDeleteUser = async () => {
+    try {
+      const res = await fetch(
+        `/api/user/delete/${userIdToDelete}
+      `,
+        { method: "DELETE" }
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
+        setShowModal(false);
+      } else {
+        console.error(data.message);
+      }
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {currentUser?.isAdmin && users.length > 0 ? (
@@ -88,6 +107,7 @@ export default function DashUsers() {
                     <span
                       onClick={() => {
                         setShowModal(true);
+                        setUserIdToDelete(user._id!);
                       }}
                       className="font-medium text-red-500 hover:underline cursor-pointer"
                     >
@@ -124,7 +144,9 @@ export default function DashUsers() {
               Are you sure you want to delete this post?
             </h3>
             <div className="flex justify-center gap-4">
-              <Button color="failure">Yes. I'm sure</Button>
+              <Button color="failure" onClick={handleDeleteUser}>
+                Yes. I'm sure
+              </Button>
               <Button color="gray" onClick={() => setShowModal(false)}>
                 No, cancel
               </Button>
