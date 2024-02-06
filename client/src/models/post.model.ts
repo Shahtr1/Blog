@@ -7,4 +7,5 @@ export interface IPost {
   category: string;
   slug: string;
   updatedAt: string;
+  createdAt: string;
 }
