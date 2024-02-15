@@ -8,6 +8,7 @@ import { ERequest, EResponse, IError } from "./models/api.model";
 import { NextFunction } from "connect";
 import cookieParser from "cookie-parser";
 import postRoutes from "./routes/post.route";
+import commentRoutes from "./routes/comment.route";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ const jsonParser = bodyParser.json();
 app.use("/api/user", jsonParser, userRoutes);
 app.use("/api/post", jsonParser, postRoutes);
 app.use("/api/auth", jsonParser, authRouter);
+app.use("/api/comment", jsonParser, commentRoutes);
 
 // middleware
 app.use((err: IError, req: ERequest, res: EResponse, next: NextFunction) => {
