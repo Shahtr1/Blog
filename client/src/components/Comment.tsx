@@ -11,10 +11,12 @@ export default function Comment({
   comment,
   onLike,
   onEdit,
+  onDelete,
 }: {
   comment: IComment;
   onLike: (id: string) => void;
   onEdit: (comment: IComment, editedContent: string) => void;
+  onDelete: (id: string) => void;
 }) {
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const { currentUser } = useSelector((state: RootState) => state.user);
@@ -127,13 +129,22 @@ export default function Comment({
               </p>
               {currentUser &&
                 (currentUser._id === comment.userId || currentUser.isAdmin) && (
-                  <button
-                    type="button"
-                    onClick={handleEdit}
-                    className="text-gray-400 hover:text-blue-500"
-                  >
-                    Edit
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      onClick={handleEdit}
+                      className="text-gray-400 hover:text-blue-500"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(comment._id)}
+                      className="text-gray-400 hover:text-red-500"
+                    >
+                      Delete
+                    </button>
+                  </>
                 )}
             </div>
           </>
