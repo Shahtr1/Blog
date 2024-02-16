@@ -27,8 +27,8 @@ export default function Comment({
     const getUser = async () => {
       try {
         const res = await fetch(`/api/user/${comment.userId}`);
+        const data = await res.json();
         if (res.ok) {
-          const data = await res.json();
           setUser(data);
         }
       } catch (error: any) {

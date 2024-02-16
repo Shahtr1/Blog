@@ -56,8 +56,8 @@ export default function CommentSection({ postId }: { postId: string }) {
     const getComments = async () => {
       try {
         const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        const data = await res.json();
         if (res.ok) {
-          const data = await res.json();
           setComments(data);
         }
       } catch (error: any) {
@@ -76,8 +76,8 @@ export default function CommentSection({ postId }: { postId: string }) {
       const res = await fetch(`/api/comment/likeComment/${commentId}`, {
         method: "PUT",
       });
+      const data = await res.json();
       if (res.ok) {
-        const data = await res.json();
         setComments(
           comments.map((comment) =>
             comment._id === commentId
@@ -117,8 +117,8 @@ export default function CommentSection({ postId }: { postId: string }) {
           method: "DELETE",
         }
       );
+      const data = await res.json();
       if (res.ok) {
-        const data = await res.json();
         setComments(
           comments.filter((comment) => comment._id !== commentIdToDelete)
         );
