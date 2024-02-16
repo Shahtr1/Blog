@@ -2,9 +2,19 @@ import { useEffect, useState } from "react";
 import { IComment } from "../models/comment.model";
 import { IUser } from "../models/user.model";
 import moment from "moment";
+import { FaThumbsUp } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
-export default function Comment({ comment }: { comment: IComment }) {
+export default function Comment({
+  comment,
+  onLike,
+}: {
+  comment: IComment;
+  onLike: (id: string) => void;
+}) {
   const [user, setUser] = useState<IUser | undefined>(undefined);
+  const { currentUser } = useSelector((state: RootState) => state.user);
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -40,6 +50,25 @@ export default function Comment({ comment }: { comment: IComment }) {
         <p className="text-gray-500 dark:text-gray-300 pb-2">
           {comment.content}
         </p>
+        <div className="flex items-center pt-2 text-xs border-t dark:border-gray-700 max-w-fit gap-2">
+          <button
+            type="button"
+            onClick={() => onLike(comment._id)}
+            className={`text-gray-400 hover:text-blue-500 ${
+              currentUser &&
+              comment.likes.includes(currentUser._id) &&
+              "!text-blue-500"
+            }`}
+          >
+            <FaThumbsUp className="text-sm" />
+          </button>
+          <p className="text-gray-400">
+            {comment.numberOfLikes > 0 &&
+              comment.numberOfLikes +
+                " " +
+                (comment.numberOfLikes === 1 ? "like" : "likes")}
+          </p>
+        </div>
       </div>
     </div>
   );
