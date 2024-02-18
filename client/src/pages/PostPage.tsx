@@ -9,7 +9,7 @@ import PostCard from "../components/PostCard";
 export default function PostPage() {
   const { postSlug } = useParams();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [_error, setError] = useState(false);
   const [post, setPost] = useState<IPost | undefined>(undefined);
   const [recentPosts, setRecentPosts] = useState<IPost[]>([]);
 

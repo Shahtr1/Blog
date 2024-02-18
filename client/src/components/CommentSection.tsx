@@ -117,7 +117,7 @@ export default function CommentSection({ postId }: { postId: string }) {
           method: "DELETE",
         }
       );
-      const data = await res.json();
+      await res.json();
       if (res.ok) {
         setComments(
           comments.filter((comment) => comment._id !== commentIdToDelete)

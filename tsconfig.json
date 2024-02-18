@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "es2017",          // Depending on which ECMAScript version your Node.js version supports
+      "module": "commonjs",        // If you're using CommonJS modules
+      "outDir": "./dist",          // Where to put the compiled JS files
+      "strict": true,              // Enable all strict type-checking options
+      "esModuleInterop": true,     // Enables compatibility with Babel-style module imports
+      "skipLibCheck": true,        // Skip type checking of all declaration files (*.d.ts)
+      "forceConsistentCasingInFileNames": true,
+      "rootDir": "./api"           // Root directory of your project
+    },
+    "include": [
+      "api/**/*.ts"               // Include all TypeScript files in api and subdirectories
+    ],
+    "exclude": [
+      "node_modules"              // Exclude the node_modules directory
+    ]
+  }
+  

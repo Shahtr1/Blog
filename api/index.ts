@@ -9,16 +9,15 @@ import { NextFunction } from "connect";
 import cookieParser from "cookie-parser";
 import postRoutes from "./routes/post.route";
 import commentRoutes from "./routes/comment.route";
-import path from "path";
 
-dotenv.config();
+// TODO: Fix this
+// dotenv.config({ path: "../.env" }); // for production
+dotenv.config(); // for development
 
 mongoose
   .connect(process.env.MONGO!)
   .then(() => console.log("MongoDB is connected"))
   .catch((err) => console.error(err));
-
-const __dirname = path.resolve();
 
 const app = express();
 
@@ -37,11 +36,11 @@ app.use("/api/post", jsonParser, postRoutes);
 app.use("/api/auth", jsonParser, authRouter);
 app.use("/api/comment", jsonParser, commentRoutes);
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
+// app.use(express.static(path.join(__dirname, "../../blog")));
 
-app.get("*", (req: ERequest, res: EResponse) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
+// app.get("*", (req: ERequest, res: EResponse) => {
+//   res.sendFile(path.join(__dirname, "../../blog", "index.html"));
+// });
 
 // middleware
 app.use((err: IError, req: ERequest, res: EResponse, next: NextFunction) => {
